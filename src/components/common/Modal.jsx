@@ -1,4 +1,3 @@
-import { render } from "@testing-library/react";
 import { useEffect, useState } from "react";
 import { createGlobalStyle, styled } from "styled-components";
 
@@ -50,12 +49,6 @@ const DIV = styled.div`
     align-items: center;
 `;
 
-const CONFIG = createGlobalStyle`
-    * :not(#modal) {
-        background-color: blue;
-    }
-`;
-
 const Modal = () => {
     const [modalStatus, setModalStatus] = useState("false");
     const [account, setAccount] = useState({
@@ -67,9 +60,26 @@ const Modal = () => {
     // }, []);
     useEffect(() => console.log(account), [account]);
 
+    const disableMainContainer = () => {
+        const mainConinaer = document.getElementsByClassName("mainContainer");
+        mainConinaer[0].style = {disable: true, opacity: '0.5'};
+    }
+
+    const beAbleMainContaienr = () => {
+        const mainContainer = document.getElementsByClassName("mainContainer");
+        mainContainer[0].style = {disable: false, opacity: '1'};
+    }
+
+    const openModal = () => {
+        setModalStatus("true");
+        // disableMainContainer();
+    }
+
     return (
         <>
-            <button onClick={()=>setModalStatus("true")}>회원가입</button>
+            <div className="mainContainer" style={{width: '1920px', height: '1080px', border: 'black 1px solid', backgroundImage: "url('/assets/images/personal_computer_background_picture.png')"}}>
+                <button onClick={openModal}>회원가입</button>
+            </div>
             <DIV visible={modalStatus} id="modal">
                 <div>
                     <ModalLabel htmlFor="idInput">아이디</ModalLabel>
@@ -114,6 +124,7 @@ const Modal = () => {
                     onClick={() => {
                         setAccount({ id: "", pw: "" });
                         setModalStatus("fasle");
+                        // beAbleMainContaienr();
                     }}
                 >
                     X
